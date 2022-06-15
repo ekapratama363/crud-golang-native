@@ -7,22 +7,20 @@ import (
 	"os"
 )
 
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-}
-
-var (
-	database = make(map[string]User)
-)
-
 func responseJson(res http.ResponseWriter, message []byte, httpCode int) {
 	res.Header().Set("Content-type", "application-json")
 	res.WriteHeader(httpCode)
 	res.Write(message)
 }
 
-func main() {
+func user() {
+
+	type User struct {
+		ID   string `json:"id"`
+		Name string `json:"name"`
+	}
+
+	var database = make(map[string]User)
 
 	database["1"] = User{ID: "1", Name: "Eka"}
 
@@ -179,6 +177,11 @@ func main() {
 
 		responseJson(res, response, http.StatusOK)
 	})
+}
+
+func main() {
+
+	user()
 
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		message := []byte(`{"message": "server is run"}`)
